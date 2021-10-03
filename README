@@ -1,0 +1,17 @@
+# Did Zorchenheimer cancel movie night (again)?
+
+This little program written in COBOL checks,
+if it is saturday and asks, if Zorchenhimer
+cancelled movie night (again).  
+
+Just a fu project, 
+cause he cancelled too often now. >:(
+
+## Building
+
+Install GNUCobol (cobc) and GNU Make and 
+run `make` in the game's source directory.
+
+## License
+
+See LICENSE.
