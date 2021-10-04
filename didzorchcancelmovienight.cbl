@@ -7,37 +7,54 @@
        
        DATA DIVISION.
        WORKING-STORAGE SECTION.
-       01 WS-DAY PIC 9(1) VALUE ZERO.
-       01 WS-ISMOVIENIGHT PIC A(3) VALUE "NO".
-       01 WS-ISCANCELLED PIC A(3) VALUE "NO".
+       01 TODAY PIC 9(1) VALUE ZERO.
+       01 USER-INPUT PIC A(1) VALUE SPACE.
+       01 INPUT-RESULT PIC A(1) VALUE SPACE.
+       01 ISMOVIENIGHT PIC A(1) VALUE "y".
+       01 ISCANCELLED PIC A(1) VALUE "y".
        
        PROCEDURE DIVISION.
-       0100-START-HERE.
-           ACCEPT WS-DAY FROM DAY-OF-WEEK
-      *    6 = saturday
-           IF WS-DAY = 6 THEN
+       START-HERE.
+           ACCEPT TODAY FROM DAY-OF-WEEK
+      *    6 EQUAL saturday
+           IF TODAY EQUAL 6 THEN
                DISPLAY "It is saturday!"
-               DISPLAY "Should there be a movie night? (yes/no)"
-               ACCEPT WS-ISMOVIENIGHT
-               MOVE FUNCTION LOWER-CASE(WS-ISMOVIENIGHT) 
-      -            TO WS-ISMOVIENIGHT
+               DISPLAY "Should there be a movie night? (y/n)"
+               PERFORM RECEIVE-USER-USER-INPUT
+               IF INPUT-RESULT IS NOT EQUAL SPACE AND LOW-VALUE THEN
+                   MOVE INPUT-RESULT TO ISMOVIENIGHT
+               END-IF
 
-               IF WS-ISMOVIENIGHT = 'yes' THEN
-                   DISPLAY "Did Zorch cancel it? (yes/no)"
-                   ACCEPT WS-ISCANCELLED
-                   MOVE FUNCTION LOWER-CASE(WS-ISCANCELLED) 
-      -                TO WS-ISCANCELLED
+               IF ISMOVIENIGHT EQUAL 'y' THEN
+                   DISPLAY "Was ist cancelled? (y/n)"
+                   PERFORM RECEIVE-USER-USER-INPUT
+                   IF INPUT-RESULT IS NOT EQUAL SPACE AND LOW-VALUE THEN
+                       MOVE INPUT-RESULT TO ISCANCELLED
+                   END-IF
 
-                   IF WS-ISCANCELLED = 'yes' THEN
+                   IF ISCANCELLED EQUAL 'y' THEN
                        DISPLAY "NOT AGAIN, ZORCH! >:("
+                   ELSE
+                       DISPLAY "See ya at movie night! :)"
                    END-IF
                ELSE
-                   DISPLAY "See ya at movie night! :)"
+                   DISPLAY "Then there is no movie night!"
+                   DISPLAY "Try again next saturday!"
                END-IF
            ELSE
                DISPLAY "It is not saturday!"
                DISPLAY "Try again tomorrow!"
-           END-IF.
+           END-IF
+           STOP RUN.
+
+       RECEIVE-USER-USER-INPUT.
+           MOVE SPACE TO USER-INPUT
+           MOVE SPACE TO INPUT-RESULT
+           ACCEPT USER-INPUT
+           MOVE FUNCTION LOWER-CASE(USER-INPUT) TO USER-INPUT
+           IF USER-INPUT IS NOT EQUAL 'y' THEN
+               MOVE USER-INPUT TO INPUT-RESULT
+           END-IF
+           EXIT.
               
-       STOP RUN.
        END PROGRAM DIDZORCHCANCELMOVIENIGHT.
