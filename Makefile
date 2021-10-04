@@ -8,4 +8,4 @@ didzorchcancelmovienight$(EXT): didzorchcancelmovienight.cbl
 	cobc -x -Oo $@ $<
 
 clean:
-	rm didzorchcancelmovienight didzorchcancelmovienight.exe
+	-rm didzorchcancelmovienight didzorchcancelmovienight.exe
